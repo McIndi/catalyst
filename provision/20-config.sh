@@ -35,10 +35,9 @@ ERA_LLM_MODEL=${ERA_LLM_MODEL}
 ERA_TLS=${ERA_TLS}
 # Where locally built images go: in-cluster (rossoctl-deps registry, NodePort 30500) or ghcr.
 ERA_REGISTRY=in-cluster
-# Where \`era update\` refreshes /opt/era-k8s from: the era-k8s branch of the agent repo, folder era-k8s.
-ERA_REPO=https://github.com/McIndi/example_reservation_agent.git
-ERA_BRANCH=era-k8s
-ERA_REPO_SUBDIR=era-k8s
+# Where \`era update\` refreshes /opt/era-k8s from: the main branch of the catalyst repo.
+ERA_REPO=https://github.com/McIndi/catalyst.git
+ERA_BRANCH=main
 EOF
 chmod 0644 /etc/era-k8s/config.env
 

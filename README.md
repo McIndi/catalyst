@@ -1,14 +1,20 @@
-# era-k8s
+# Catalyst
 
-A single-node Kubernetes cluster that runs the rossoctl platform and this repository's reservation agent
+Run the Project Catalyst agent-guardrail demo on your own machine. This is a single-node Kubernetes VM that runs
+the rossoctl platform and the [reservation agent](https://github.com/McIndi/example_reservation_agent)
 without OpenShift: Fedora 44, kubeadm, CRI-O, Calico, local-path storage, SELinux enforcing, firewalld.
 It comes as a Lima template for macOS (Intel and Apple silicon), as Vagrant boxes and OVAs for VirtualBox and
 VMware, all built from the same provisioning scripts; the cluster initializes itself at its first boot.
 Inside the VM, the `era` command installs the platform, the agent and its tool, OpenBao with the Vault
 Secrets Operator, and SIEMatic, the audit plane.
 
+Brian Kearney built and packaged the VM and the images. The reservation agent and its tool are in
+[example_reservation_agent](https://github.com/McIndi/example_reservation_agent): `era agent` clones that
+repository inside the VM for its manifests and pulls its container images, so the VM needs internet access for
+that step.
+
 **To run it, start with [docs/running-the-box.md](docs/running-the-box.md); the images are on the
-[release page](https://github.com/McIndi/example_reservation_agent/releases/tag/era-k8s-images-2026-10-18).**
+[release page](https://github.com/McIndi/catalyst/releases/tag/era-k8s-images-2026-10-18).**
 
 | File | Purpose |
 |---|---|
@@ -67,9 +73,9 @@ export/convert.sh k8s-export qcow2       # also vmdk, vdi; or: VBoxManage conver
 
 - After editing `provision/*.sh` or `k8s.yaml.in`: `bin/render-template` (and `bin/render-template --check`
   tells whether `k8s.yaml` is current).
-- After editing `ansible/`: in a running VM, `sudo era update` pulls this repository's `era-k8s` branch
-  (`ERA_REPO`, `ERA_BRANCH`, `ERA_REPO_SUBDIR` in `/etc/era-k8s/config.env`), or copy the files in by hand.
-- Images: the agent and tool come from this repository's `era-k8s` branch (`ghcr.io/mcindi/reservation-agent`
+- After editing `ansible/`: in a running VM, `sudo era update` pulls this repository's `main` branch
+  (`ERA_REPO` and `ERA_BRANCH` in `/etc/era-k8s/config.env`; `ERA_REPO_SUBDIR` is only needed if the files sit in a subfolder), or copy the files in by hand.
+- Images: the agent and tool are built by the `era-k8s` branch of example_reservation_agent (`ghcr.io/mcindi/reservation-agent`
   and `reservation-tool`, tag `era-k8s`, linux/amd64 and linux/arm64); SIEMatic from its own `era-k8s`
   branch, pinned by digest in `ansible/playbooks/siematic.yml`.
 

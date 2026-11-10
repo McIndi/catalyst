@@ -6,7 +6,7 @@ container images pre-pulled, the cluster initializes itself on the first boot (o
 (rossoctl, Keycloak, MCP gateway, Phoenix, Ollama, the reservation agent, OpenBao, SIEMatic) is installed from inside
 the VM with `sudo era all` (internet access, 10 to 20 minutes).
 
-**Start with the guide: [era-k8s/docs/running-the-box.md](https://github.com/McIndi/example_reservation_agent/blob/era-k8s/era-k8s/docs/running-the-box.md).**
+**Start with the guide: [docs/running-the-box.md](https://github.com/McIndi/catalyst/blob/main/docs/running-the-box.md).**
 Login on every image: user `vagrant`, password `vagrant` (sudo without password); the console shows the VM's address.
 
 | file | for |

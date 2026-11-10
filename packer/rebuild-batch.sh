@@ -10,6 +10,7 @@
 #   6. then the public branch: the one commit prepared beforehand in the public clone (ERA_PUBLIC_CLONE; the release
 #      notes for this build) is pushed, after a fail-closed private-string gate on its diff (the pattern list lives
 #      outside the repo: ERA_PRIVATE_RE_FILE, default ~/.config/era-k8s/private-strings, one extended regex per line)
+# Moved with the repo to McIndi/catalyst (GHREPO, ERA_PUBLIC_CLONE, PUBBRANCH retargeted); not re-run since the move.
 # Logs: rebuild-batch.log (everything), rebuild-batch/<step>.log, one line per step in rebuild-batch.status.
 # The previous output/ set is kept as output-prev/. Written for one unattended run on RELEASE_DAY; refuses to run on
 # another day unless FORCE=1. --check runs the preconditions only. ERA_ARM64_HOST names the Apple-silicon Mac that
@@ -17,8 +18,8 @@
 set -uo pipefail
 export PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public"   # vmrun
 cd "$(dirname "$0")"; PK="$PWD"; REPO="$(dirname "$PK")"
-M1=${ERA_ARM64_HOST:-arm64-mac}; TAG=era-k8s-images-2026-10-18; GHREPO=McIndi/example_reservation_agent; RELEASE_DAY=2026-10-21
-PUBCLONE=${ERA_PUBLIC_CLONE:-$HOME/Documents/github/McIndi/example_reservation_agent}; PUBBRANCH=era-k8s
+M1=${ERA_ARM64_HOST:-arm64-mac}; TAG=era-k8s-images-2026-10-18; GHREPO=McIndi/catalyst; RELEASE_DAY=2026-10-21
+PUBCLONE=${ERA_PUBLIC_CLONE:-$HOME/Documents/github/McIndi/catalyst}; PUBBRANCH=main
 PRIVATE_RE_FILE=${ERA_PRIVATE_RE_FILE:-$HOME/.config/era-k8s/private-strings}
 L="$PK/rebuild-batch"; STATUS="$PK/rebuild-batch.status"
 SSH="ssh -o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=30 $M1"
@@ -93,7 +94,7 @@ public_ready() {   # the public clone holds exactly one unpushed commit on $PUBB
   ( cd "$PUBCLONE" && git fetch -q origin "$PUBBRANCH" && [ "$(git branch --show-current)" = "$PUBBRANCH" ] \
     && [ -z "$(git status --porcelain)" ] && [ "$(git rev-parse HEAD~1)" = "$(git rev-parse "origin/$PUBBRANCH")" ] ) \
     || { log "public clone: not on $PUBBRANCH, dirty, or not exactly one commit ahead of origin/$PUBBRANCH"; return 1; }
-  cmp -s "$PUBCLONE/era-k8s/packer/release-notes.md" "$PK/release-notes.md" || { log "public clone: release-notes.md differs from packer/release-notes.md"; return 1; }
+  cmp -s "$PUBCLONE/packer/release-notes.md" "$PK/release-notes.md" || { log "public clone: release-notes.md differs from packer/release-notes.md"; return 1; }
   git -C "$PUBCLONE" ls-remote --exit-code -q origin "$PUBBRANCH" >/dev/null 2>&1 || { log "public clone: origin unreachable"; return 1; }
 }
 

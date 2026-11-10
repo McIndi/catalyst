@@ -2,7 +2,7 @@
 
 era-k8s is a single-node Kubernetes VM (Fedora 44, kubeadm, CRI-O, Calico, local-path storage, SELinux
 enforcing, firewalld) with the rossoctl platform tooling baked in. The images are on the release page
-[era-k8s-images-2026-10-18](https://github.com/McIndi/example_reservation_agent/releases/tag/era-k8s-images-2026-10-18) with a `SHA256SUMS` file; download the one for your hypervisor:
+[era-k8s-images-2026-10-18](https://github.com/McIndi/catalyst/releases/tag/era-k8s-images-2026-10-18) with a `SHA256SUMS` file; download the one for your hypervisor:
 
 | form | for | file | section |
 |---|---|---|---|
@@ -34,8 +34,8 @@ and `vagrant plugin install vagrant-vmware-desktop`. VirtualBox needs nothing el
 used; the VM shares no folder with the host).
 
 ```bash
-git clone https://github.com/McIndi/example_reservation_agent -b era-k8s   # this Vagrantfile
-cd example_reservation_agent
+git clone https://github.com/McIndi/catalyst   # this Vagrantfile
+cd catalyst
 vagrant box add era-k8s era-k8s-virtualbox.box        # or era-k8s-vmware.box
 vagrant up                                           # add --provider vmware_desktop for VMware
 vagrant ssh -c 'sudo journalctl -fu k8s-init'        # until "k8s-init: done" (Ctrl-C to leave)
